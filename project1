@@ -1,0 +1,48 @@
+import argparse
+
+
+def analyser_commande():
+    """
+    Générer un interpréteur de commande.
+
+    Returns:
+        Un objet Namespace tel que retourné par parser.parse_args().
+        Cet objet aura l'attribut «symboles» représentant la liste des
+        symboles à traiter, et les attributs «début», «fin» et «valeur»
+        associés aux arguments optionnels de la ligne de commande.
+    """
+    parser = argparse.ArgumentParser(
+        description="Extraction de valeurs historiques pour un ou plusieurs symboles boursiers."
+    )
+
+    # Complétez le code ici
+    # vous pourriez aussi avoir à ajouter des arguments dans ArgumentParser(...)
+    parser.add_argument(
+        'symbole',
+        nargs='*',
+        # required="False",
+        help='Nom d\'un symbole boursier',
+    )
+    parser.add_argument(
+        "-d", "--début",
+        metavar="Date",
+        # action = 'store_true',
+        help=" Date recherchée la plus ancienne (format: AAAA-MM-JJ)",
+    )
+    parser.add_argument(
+        "-f", "--fin",
+        metavar="Date",
+        # action = 'store_true',
+        help="Date recherchée la plus récente (format: AAAA-MM-JJ)",
+    )
+    parser.add_argument(
+        '-v', '--valeur',
+        metavar='{fermeture,ouverture,min,max,volume}',
+        default='fermeture',
+        # action = "store_true",
+        help="La valeur désirée (par défaut: fermeture)",
+    )
+    return parser.parse_args()
+
+
+print(analyser_commande())
