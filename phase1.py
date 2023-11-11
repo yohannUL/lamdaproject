@@ -28,47 +28,56 @@ def analyser_commande():
     )
     parser.add_argument(
         "-d", "--début",
-        metavar="Date",
+        metavar="DATE",
         help=" Date recherchée la plus ancienne (format: AAAA-MM-JJ)",
     )
     parser.add_argument(
         "-f", "--fin",
-        metavar="Date",
-        # action = 'store_true',
+        metavar="DATE",
         help="Date recherchée la plus récente (format: AAAA-MM-JJ)",
     )
     parser.add_argument(
         '-v', '--valeur',
-        metavar='{fermeture,ouverture,min,max,volume}',
         default='fermeture',
-        # action = "store_true",
+        type = str,
+        choices= ["fermeture,ouverture,min,max,volume"],
         help="La valeur désirée (par défaut: fermeture)",
     )
     return parser.parse_args()
 
 
-def produire_historique(nom_symbole, date_debut, date_fin, valeur):
+def produire_historique(symbole):
+
+    list_date=[]
+    get_parameters=analyser_commande()
+
+    reponse_finale=""
 
 
-    url = f'https://pax.ulaval.ca/action/{nom_symbole}/historique/'
+    url = f'https://pax.ulaval.ca/action/{symbole}/historique/'
+    list_date.append(datetime.datetime.strptime(get_parameters.début,'%Y-%m-%d').date())
+    list_date.append(datetime.datetime.strptime(get_parameters.fin,'%Y-%m-%d').date())
 
     params = {
-        'début': date_debut,
-        'fin': date_fin,
+        'début': get_parameters.début,
+        'fin': get_parameters.fin,
     }
+    table_reponse = requests.get(url=url, params=params, timeout=60)
+    table_reponse = json.loads(table_reponse.text)
+    liste=[]
+    for key in table_reponse['historique'].keys():
+        liste.append((datetime.datetime.strptime(key,'%Y-%m-%d').date(),table_reponse['historique'][key][get_parameters.valeur]))
 
-    table_json = requests.get(url=url, params=params)
-    table_json = json.loads(table_json.text)
+        
+    reponse=""
+    reponse=f"titre={symbole}: valeur={get_parameters.valeur}, début="
+    reponse+=f"datetime.date({list_date[0].year}, {list_date[0].month}, {list_date[0].day}), "
+    reponse+=f"fin=datetime.date({list_date[1].year}, {list_date[1].month}, {list_date[1].day})"
+    liste.reverse()
+    reponse += "\n"+str(liste)
+    reponse_finale = ""
+    reponse_finale += "\n"+reponse
+    return reponse_finale
 
-    historique = table_json["historique"]
-    liste = []
-
-    for key in historique.keys():
-        liste.append(( date.fromisoformat(key), historique[key][valeur]))
-
-    print(f"titre={nom_symbole}: valeur={valeur}, début={(date_debut)}, fin={(date_fin)}")
-    print(liste)
-    
-
-analyser_commande()
-produire_historique(nom_symbole = "goog", date_debut = "2019-02-22", date_fin ="2019-02-22", valeur = "volume")
+resultat = produire_historique("goog")
+print(resultat)
