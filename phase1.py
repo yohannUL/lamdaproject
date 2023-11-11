@@ -56,6 +56,13 @@ def produire_historique():
 
 
         url = f'https://pax.ulaval.ca/action/{symbole}/historique/'
+
+        if get_parameters.début is None and get_parameters.fin is not None:
+            get_parameters.début=get_parameters.fin
+        if  get_parameters.début is not None and get_parameters.fin is None:
+            get_parameters.fin=str(datetime.date.today())
+
+
         list_date.append(datetime.datetime.strptime(get_parameters.début,'%Y-%m-%d').date())
         list_date.append(datetime.datetime.strptime(get_parameters.fin,'%Y-%m-%d').date())
 
