@@ -1,5 +1,7 @@
 import argparse
-
+import requests
+import json
+from datetime import date
 
 def analyser_commande():
     """
@@ -45,4 +47,32 @@ def analyser_commande():
     return parser.parse_args()
 
 
-print(analyser_commande())
+def produire_historique(nom_symbole, date_debut, date_fin, valeur):
+
+
+    url = f'https://pax.ulaval.ca/action/{nom_symbole}/historique/'
+
+    params = {
+        'début': date_debut,
+        'fin': date_fin,
+    }
+
+    table_json = requests.get(url=url, params=params)
+    table_json = json.loads(table_json.text)
+
+    historique = table_json["historique"]
+    liste = []
+
+    for key in historique.keys():
+        liste.append(( date.fromisoformat(key), historique[key][valeur]))
+
+    print(f"titre={nom_symbole}: valeur={valeur}, début={(date_debut)}, fin={(date_fin)}")
+    print(liste)
+    
+
+    
+
+    
+
+
+produire_historique(nom_symbole = "goog", date_debut = "2019-02-22", date_fin ="2019-02-22", valeur = "volume")
