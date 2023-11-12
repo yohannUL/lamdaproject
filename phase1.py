@@ -1,8 +1,8 @@
 """importation des librairie pour le project affichage de valeurs boursiere"""
 import argparse
+import requests
 import json
 import datetime
-import requests
 
 
 def analyser_commande():
@@ -61,7 +61,6 @@ def produire_historique():
     reponse_finale=""
     reponse=""
     for symbole in get_parameters.symbole:
-
         url = f'https://pax.ulaval.ca/action/{symbole}/historique/'
         if get_parameters.début is None and get_parameters.fin is not None:
             get_parameters.début=get_parameters.fin
@@ -71,21 +70,24 @@ def produire_historique():
         list_date.append(datetime.datetime.strptime(get_parameters.fin,'%Y-%m-%d').date())
         params = {
             'début': get_parameters.début,
-           'fin': get_parameters.fin,
+            'fin': get_parameters.fin,
         }
         liste_réponse = requests.get(url=url, params=params, timeout=60)
         liste_réponse = json.loads(liste_réponse.text)
         liste = []
+
         for key in liste_réponse['historique'].keys():
+
             liste.append((datetime.datetime.strptime(key,'%Y-%m-%d').date(),
-                                  liste_réponse['historique'][key][get_parameters.valeur]))
+                                    liste_réponse['historique'][key][get_parameters.valeur]))
+
         reponse=f"titre={symbole}: valeur={get_parameters.valeur}, début="
         reponse+=f"datetime.date({list_date[0].year}, {list_date[0].month}, {list_date[0].day}), "
         reponse+=f"fin=datetime.date({list_date[1].year}, {list_date[1].month}, {list_date[1].day})"
         liste.reverse()
         reponse+="\n"+str(liste)
         reponse_finale+="\n"+reponse
-    return reponse_finale
+        return reponse_finale
 
 resultat=produire_historique()
 print(resultat)
