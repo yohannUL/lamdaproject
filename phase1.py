@@ -1,7 +1,8 @@
-"""importation des librairie"""
-import json
+"""Module pour l'extraction des valeurs boursières historiques."""
+
 import argparse
 import datetime
+import json
 import requests
 
 
@@ -19,8 +20,6 @@ def analyser_commande():
         description="Extraction de valeurs historiques pour un ou plusieurs symboles boursiers."
     )
 
-    # Complétez le code ici
-    # vous pourriez aussi avoir à ajouter des arguments dans ArgumentParser(...)
     parser.add_argument(
         'symbole',
         type=str,
@@ -49,26 +48,25 @@ def analyser_commande():
 
 def produire_historique():
     """
-    afficher les valeurs boursiere leurs date en fontion des valeurs demander.
+    Afficher les valeurs boursières et leurs dates en fonction des valeurs demandées.
 
     Returns:
-        notre module produit le titre de l'action la valeur la date de debut et la date de fin et
-         ensuite retourne un liste de la date puis de la valeur de cette action a la dte donner
+        Notre module produit le titre de l'action, la valeur, la date de début et la date de fin et
+        ensuite retourne une liste de la date puis de la valeur de cette action à la date donnée.
     """
-    list_date=[]
-    get_parameters=analyser_commande()
+    list_date = []
+    get_parameters = analyser_commande()
 
-    reponse_finale=""
-    reponse = ""
+    reponse_finale = ""
     for symbole in get_parameters.symbole:
 
         url = f'https://pax.ulaval.ca/action/{symbole}/historique/'
         if get_parameters.début is None and get_parameters.fin is not None:
-            get_parameters.début=get_parameters.fin
-        if  get_parameters.début is not None and get_parameters.fin is None:
-            get_parameters.fin=str(datetime.date.today())
-        list_date.append(datetime.datetime.strptime(get_parameters.début,'%Y-%m-%d').date())
-        list_date.append(datetime.datetime.strptime(get_parameters.fin,'%Y-%m-%d').date())
+            get_parameters.début = get_parameters.fin
+        if get_parameters.début is not None and get_parameters.fin is None:
+            get_parameters.fin = str(datetime.date.today())
+        list_date.append(datetime.datetime.strptime(get_parameters.début, '%Y-%m-%d').date())
+        list_date.append(datetime.datetime.strptime(get_parameters.fin, '%Y-%m-%d').date())
 
         params = {
             'début': get_parameters.début,
@@ -78,15 +76,15 @@ def produire_historique():
         liste_réponse = json.loads(liste_réponse.text)
         liste = []
         for key in liste_réponse['historique'].keys():
-            liste.append((datetime.datetime.strptime(key,'%Y-%m-%d').date(),
-                                  liste_réponse['historique'][key][get_parameters.valeur]))
-        reponse=f"titre={symbole}: valeur={get_parameters.valeur}, début="
-        reponse+=f"datetime.date({list_date[0].year}, {list_date[0].month}, {list_date[0].day}), "
-        reponse+=f"fin=datetime.date({list_date[1].year}, {list_date[1].month}, {list_date[1].day})"
+            liste.append((datetime.datetime.strptime(key, '%Y-%m-%d').date(),
+                          liste_réponse['historique'][key][get_parameters.valeur]))
+        reponse = f"titre={symbole}: valeur={get_parameters.valeur}, début="
+        reponse += f"datetime.date({list_date[0].year}, {list_date[0].month}, {list_date[0].day}), "
+        reponse += f"fin=datetime.date({list_date[1].year}, {list_date[1].month}, {list_date[1].day})"
         liste.reverse()
-        reponse+="\n"+str(liste)
-        reponse_finale+="\n"+reponse
+        reponse += "\n" + str(liste)
+        reponse_finale += "\n" + reponse
     return reponse_finale
 
-reponse=produire_historique()
+reponse = produire_historique()
 print(reponse)
