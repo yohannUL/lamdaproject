@@ -1,6 +1,6 @@
 """importation des librairie pour le project affichage de valeurs boursiere"""
-import json
 import argparse
+import json
 import datetime
 import requests
 
