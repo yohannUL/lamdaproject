@@ -1,7 +1,8 @@
-import argparse
-import requests
+"importation des librairie"
 import json
+import argparse
 import datetime
+import requests
 
 
 def analyser_commande():
@@ -47,6 +48,13 @@ def analyser_commande():
 
 
 def produire_historique():
+    """
+    afficher les valeurs boursiere leurs date en fontion des valeurs demander.
+
+    Returns:
+        notre module produit le titre de l'action la valeur la date de debut et la date de fin et
+         ensuite retourne un liste de la date puis de la valeur de cette action a la dte donner 
+    """
 
     list_date=[]
     get_parameters=analyser_commande()
@@ -74,8 +82,8 @@ def produire_historique():
         table_reponse = json.loads(table_reponse.text)
         liste=[]
         for key in table_reponse['historique'].keys():
-            liste.append((datetime.datetime.strptime(key,'%Y-%m-%d').date(),table_reponse['historique'][key][get_parameters.valeur]))
-
+            liste.append((datetime.datetime.strptime(key,'%Y-%m-%d').date(),
+            table_reponse['historique'][key][get_parameters.valeur]))
             
         reponse=""
         reponse=f"titre={symbole}: valeur={get_parameters.valeur}, début="
