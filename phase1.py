@@ -1,8 +1,9 @@
 """Importation de librairie pour le module d'affichage des valeurs boursiers."""
 import json
-import argparse
 import datetime
+import argparse
 import requests
+
 
 
 
@@ -68,14 +69,12 @@ def produire_historique():
             titre=goog: valeur=volume, début=datetime.date(2019, 2, 22),
             fin=datetime.date(2019, 2, 22) [(datetime.date(2019, 2, 22),
             1049545)]
-
     """
     list_date=[]
     get_parameters=analyser_commande()
 
     reponse_finale= ""
     for elemnt_symbole in get_parameters.symbole:
-
         url = f'https://pax.ulaval.ca/action/{elemnt_symbole}/historique/'
         if get_parameters.début is None and get_parameters.fin is not None:
             get_parameters.début=get_parameters.fin
