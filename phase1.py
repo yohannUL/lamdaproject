@@ -105,3 +105,7 @@ def produire_historique():
 
 resultat=produire_historique()
 print(resultat)
+
+
+
+
