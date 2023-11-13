@@ -95,13 +95,13 @@ def produire_historique():
         for key in table_réponse['historique'].keys():
             table.append((datetime.datetime.strptime(key, '%Y-%m-%d').date(),
                           table_réponse['historique'][key][get_parameters.valeur]))
-        reponse= ""
-        reponse= f"titre={elemnt_symbole}: valeur={get_parameters.valeur}, début="
-        reponse+= f"datetime.date({list_date[0].year}, {list_date[0].month}, {list_date[0].day}), "
-        reponse+= f"fin=datetime.date({list_date[1].year}, {list_date[1].month}, {list_date[1].day})"
+        repons= ""
+        repons= f"titre={elemnt_symbole}: valeur={get_parameters.valeur}, début="
+        repons+= f"datetime.date({list_date[0].year}, {list_date[0].month}, {list_date[0].day}), "
+        repons+= f"fin=datetime.date({list_date[1].year}, {list_date[1].month}, {list_date[1].day})"
         table.reverse()
-        reponse= reponse + "\n" + str(table)
-        reponse_finale= reponse_finale + "\n" + reponse
+        repons= repons + "\n" + str(table)
+        reponse_finale= reponse_finale + "\n" + repons
     return reponse_finale
 
 resultat=produire_historique()
