@@ -72,7 +72,6 @@ def produire_historique():
     """
     list_date=[]
     get_parameters=analyser_commande()
-
     reponse_finale= ""
     for elemnt_symbole in get_parameters.symbole:
         url = f'https://pax.ulaval.ca/action/{elemnt_symbole}/historique/'
@@ -105,7 +104,3 @@ def produire_historique():
 
 resultat=produire_historique()
 print(resultat)
-
-
-
-
