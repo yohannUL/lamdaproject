@@ -7,8 +7,8 @@ Returns:
     symboles à traiter, et les attributs «début», «fin» et «valeur»
     associés aux arguments optionnels de la ligne de commande.
 """
-import argparse#importation
 import json#importation
+import argparse#importation
 from datetime import date, datetime#importation
 import datetime#importation
 import requests#importation
