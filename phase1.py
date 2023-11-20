@@ -60,15 +60,12 @@ valeur = recuperer.valeur
 
 def produire_historique(symbolee, debute, fine, valeure):
     """
-    Générer un interpréteur de commande.
+    Générer produire historiaue .
 
     Returns:
-        Un objet Namespace tel que retourné par parser.parse_args().
-        Cet objet aura l'attribut «symboles» représentant la liste des
-        symboles à traiter, et les attributs «début», «fin» et «valeur»
-        associés aux arguments optionnels de la ligne de commande."""
+        Un cette fonction return une liste de tuple du type 
+        [(datetime.date(2019, 2, 19), 33.02), (datetime.date(2019, 2, 20), 33.22), (datetime.date(2019, 2, 21), 33.2), (datetime.date(2019, 2, 22), 33.33)]."""
     liste = []
-
     url = f'https://pax.ulaval.ca/action/{str(symbolee[0])}/historique/'
     if debute is None and fine is not None:
         debute = fine
@@ -95,13 +92,12 @@ def produire_historique(symbolee, debute, fine, valeure):
 
 def afficher():
     """
-Générer un interpréteur de commande.
+Générer un affichage.
 
 Returns:
-    Un objet Namespace tel que retourné par parser.parse_args().
-    Cet objet aura l'attribut «symboles» représentant la liste des
-    symboles à traiter, et les attributs «début», «fin» et «valeur»
-    associés aux arguments optionnels de la ligne de commande.
+    Un affichage du type 
+    titre=goog: valeur=fermeture, début=datetime.date(2019, 2, 18), fin=datetime.date(2019, 2, 24)
+    [(datetime.date(2019, 2, 19), 33.02), (datetime.date(2019, 2, 20), 33.22), (datetime.date(2019, 2, 21), 33.2), (datetime.date(2019, 2, 22), 33.33)] .
 """
     list_date = []
     for element_symbole in symbole:
