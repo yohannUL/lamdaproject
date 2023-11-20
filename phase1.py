@@ -64,7 +64,8 @@ def produire_historique(symbolee, debute, fine, valeure):
 
     Returns:
         Un cette fonction return une liste de tuple du type 
-        [(datetime.date(2019, 2, 19), 33.02), (datetime.date(2019, 2, 20), 33.22), (datetime.date(2019, 2, 21), 33.2), (datetime.date(2019, 2, 22), 33.33)]."""
+        [(datetime.date(2019, 2, 19), 33.02), (datetime.date(2019, 2, 20), 33.22), 
+        (datetime.date(2019, 2, 21), 33.2), (datetime.date(2019, 2, 22), 33.33)]."""
     liste = []
     url = f'https://pax.ulaval.ca/action/{str(symbolee[0])}/historique/'
     if debute is None and fine is not None:
@@ -97,7 +98,8 @@ Générer un affichage.
 Returns:
     Un affichage du type 
     titre=goog: valeur=fermeture, début=datetime.date(2019, 2, 18), fin=datetime.date(2019, 2, 24)
-    [(datetime.date(2019, 2, 19), 33.02), (datetime.date(2019, 2, 20), 33.22), (datetime.date(2019, 2, 21), 33.2), (datetime.date(2019, 2, 22), 33.33)] .
+    [(datetime.date(2019, 2, 19), 33.02), (datetime.date(2019, 2, 20), 33.22), 
+    (datetime.date(2019, 2, 21), 33.2), (datetime.date(2019, 2, 22), 33.33)] .
 """
     list_date = []
     for element_symbole in symbole:
