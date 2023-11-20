@@ -1,15 +1,7 @@
-"""
-Générer un interpréteur de commande.
-
-Returns:
-    Un objet Namespace tel que retourné par parser.parse_args().
-    Cet objet aura l'attribut «symboles» représentant la liste des
-    symboles à traiter, et les attributs «début», «fin» et «valeur»
-    associés aux arguments optionnels de la ligne de commande.
-"""
+"""Module d'afficahge des valeurs des titre boursiers """
 import json#importation
 import argparse#importation
-from datetime import date, datetime#importation
+from datetime import date #datetime#importation
 import datetime#importation
 import requests#importation
 
@@ -66,7 +58,7 @@ fin = recuperer.fin
 valeur = recuperer.valeur
 
 
-def produire_historique(symbole, debut, fin, valeur):
+def produire_historique(symbolee, debute, fine, valeure):
     """
     Générer un interpréteur de commande.
 
@@ -74,25 +66,24 @@ def produire_historique(symbole, debut, fin, valeur):
         Un objet Namespace tel que retourné par parser.parse_args().
         Cet objet aura l'attribut «symboles» représentant la liste des
         symboles à traiter, et les attributs «début», «fin» et «valeur»
-        associés aux arguments optionnels de la ligne de commande.
-    """
+        associés aux arguments optionnels de la ligne de commande."""
     liste = []
 
-    url = f'https://pax.ulaval.ca/action/{str(symbole[0])}/historique/'
-    if debut is None and fin is not None:
-        debut = fin
-    if debut is not None and fin is None:
-        fin = str(datetime.date.today())
+    url = f'https://pax.ulaval.ca/action/{str(symbolee[0])}/historique/'
+    if debute is None and fine is not None:
+        debute = fine
+    if debute is not None and fine is None:
+        fine = str(datetime.date.today())
     params = {
-        'début': debut,
-        'fin': fin,
+        'début': debute,
+        'fin': fine,
     }
-    table_json = requests.get(url=url, params=params)
+    table_json = requests.get(url=url, params=params,timeout=60)
     table_json = json.loads(table_json.text)
     historique = table_json["historique"]
 
     for key in historique.keys():
-        liste.append((date.fromisoformat(key), historique[key][valeur]))
+        liste.append((date.fromisoformat(key), historique[key][valeure]))
     liste.reverse()
     return liste
 
